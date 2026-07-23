@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Theo Nolan-Isles | Product Design and Embedded Systems</title>
+
+  <meta
+    name="description"
+    content="Engineering portfolio of Theodore Nolan-Isles: product design, embedded systems, electronics, CAD, prototyping, repair and modification including metal machining and practical problem solving."
+  >
+
+  <style>
+    :root {
+      --background: #f4f4f1;
+      --surface: #ffffff;
+      --text: #202321;
+      --muted: #626963;
+      --border: #d7dbd7;
+      --accent: #245b48;
+      --accent-dark: #173e31;
+      --max-width: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-name {
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .hero {
+      padding: 90px 0 72px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    h1 {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1.03;
+      letter-spacing: -0.045em;
+    }
+
+    .intro {
+      max-width: 720px;
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 1.2rem;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 18px;
+      border-radius: 6px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button:hover {
+      background: var(--accent-dark);
+    }
+
+    section {
+      padding: 64px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    .section-intro {
+      max-width: 720px;
+      color: var(--muted);
+    }
+
+    .project {
+      margin-top: 32px;
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .project-meta {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 28px;
+    }
+
+    .placeholder {
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--background);
+    }
+
+    .details h4 {
+      margin-bottom: 6px;
+    }
+
+    .details p {
+      margin-top: 0;
+      color: var(--muted);
+    }
+
+    .download-list {
+      padding-left: 20px;
+    }
+
+    .download-list li {
+      margin-bottom: 8px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .service {
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    footer {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      .project-grid,
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .project {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a class="site-name" href="#">Theodore Nolan-Isles</a>
+
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Product design · Embedded systems · Prototyping</p>
+
+      <h1>Practical engineering for real-world problems.</h1>
+
+      <p class="intro">
+        I design and build useful devices that combine electronics,
+        embedded software, CAD, fabrication and practical problem solving.
+        This site documents selected projects and makes some of their design
+        files available for others to use.
+      </p>
+
+      <a class="button" href="#projects">View projects</a>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <p class="section-intro">
+        Selected design and engineering projects, including prototypes,
+        custom electronics and open-source practical devices.
+      </p>
+
+      <article class="project" id="call-button">
+        <p class="project-meta">Assistive device · Open-source project</p>
+
+        <h3>Wireless Call Button for Home Care</h3>
+
+        <p>
+          I designed and built this call button for my father while he was
+          receiving care at home. It provided a simple and accessible way for
+          him to call for assistance when learning new things and communicating became difficult for him.
+        </p>
+
+        <div class="project-grid">
+          <div class="placeholder">
+            Add a photograph of the completed call button here.
+          </div>
+
+          <div class="details">
+            <h4>The problem</h4>
+            <p>
+              A conventional phone or verbal call was not always a practical
+              way to attract a carer’s attention. The device needed to be
+              simple to operate, easy to locate and dependable.
+            </p>
+
+            <h4>The design</h4>
+            <p>
+              The system uses a large, accessible push button and a separate
+              receiver or alarm unit. The enclosure and controls were selected
+              to make the device straightforward to understand and use.
+            </p>
+
+            <h4>Design priorities</h4>
+            <p>
+              Simplicity, reliability, accessible operation, readily
+              obtainable parts and straightforward assembly.
+            </p>
+          </div>
+        </div>
+
+        <h4>Project files</h4>
+
+        <p>
+          I intend to release the design files so that other carers and
+          families can build or adapt the device for their own circumstances.
+        </p>
+
+        <ul class="download-list">
+          <li>Enclosure CAD and printable files — coming soon</li>
+          <li>Electronic schematic — coming soon</li>
+          <li>Firmware or configuration — coming soon</li>
+          <li>Bill of materials — coming soon</li>
+          <li>Assembly instructions — coming soon</li>
+        </ul>
+
+        <p>
+          <strong>Important:</strong> This is an independently developed
+          personal project, not a certified medical alarm or emergency-call
+          system. Anyone reproducing it should assess whether it is suitable
+          for their circumstances and should not rely upon it as the sole means
+          of obtaining emergency assistance.
+        </p>
+      </article>
+    </section>
+
+    <section id="services">
+      <h2>Services</h2>
+
+      <p class="section-intro">
+        I undertake small engineering and design projects, particularly work
+        that crosses several technical disciplines.
+      </p>
+
+      <div class="services">
+        <div class="service">
+          <h3>Product design</h3>
+          <p>
+            Concept development, mechanical design, CAD modelling, enclosure
+            design and prototyping.
+          </p>
+        </div>
+
+        <div class="service">
+          <h3>Embedded systems</h3>
+          <p>
+            Arduino and microcontroller development, sensors, motor controls,
+            data logging and custom electronic devices.
+          </p>
+        </div>
+
+        <div class="service">
+          <h3>Technical CAD</h3>
+          <p>
+            Fusion 360 modelling, Revit family creation, fabrication drawings
+            and design-for-manufacture support.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+
+      <p class="section-intro">
+        I am a multidisciplinary designer and builder based in New South Wales,
+        Australia. My work combines electronics, embedded programming,
+        mechanical design, fabrication and CAD to produce practical solutions
+        to specific problems.
+      </p>
+
+      <!--
+      theo.nolan.isles@gmail.com
+      -->
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      © 2026 Theodore Nolan-Isles. Project information is provided for
+      educational and practical reference purposes.
+    </p>
+  </footer>
+</body>
+</html>
