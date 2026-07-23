@@ -42,10 +42,13 @@ No modification of the original electronics is required.
 ## Assembly
 
 1. Print the components.
-2. Install the wireless doorbell transmitter.
-3. Fit the pivot screws.
-4. Mount using double-sided tape or screws.
-5. Pair with the receiver.
+2. Glue or tape Face to Intermediate component.
+3. Tap threaded holes in base.
+5. Fit the pivot screws.
+6. Remove battery isolator from doorbell transmitter.
+7. Install the wireless doorbell transmitter.
+8. Optional - Mount using double-sided tape or screws.
+9. Install batteries in doorbell receiver.
 
 ---
 
