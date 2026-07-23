@@ -18,6 +18,7 @@
 - FDM 3D printer
 - M4 tap
 - 3 mm hex key
+- CA glue or double-sided tape
 - Craft knife or deburring tool, optional
 
 ---
