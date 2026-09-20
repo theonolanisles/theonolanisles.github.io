@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linkage synthesis - loading corrected door geometry</title><style>body{font:16px system-ui;margin:3rem;max-width:55rem;color:#21362d}a{color:#245b48}</style></head><body><p id="loading" role="status">Loading the linkage calculator…</p><script>
+/* Apply the corrected lower-right door datum to the previously published calculator.
+   The original page is retained intact as a historical version. */
+(async function () {
+  const loading = document.getElementById('loading');
+  try {
+    const response = await fetch('./linkage-revised.html', {cache:'no-store'});
+    if (!response.ok) throw Error('The calculator could not be loaded ('+response.status+').');
+    let html = await response.text();
+    const change = (before, after) => {
+      if (!html.includes(before)) throw Error('The calculator source has changed. The door-origin correction needs to be reapplied to its new version.');
+      html = html.replace(before, after);
+    };
+    change('return [[-w,-t],[0,-t],[0,0],[-w,0]];',
+           'return [[-w,0],[0,0],[0,t],[-w,t]];');
+    change('Closed door: <strong>X = −width to 0</strong>; <strong>Y = −thickness to 0</strong>. Positive Y points up. Consequently O appears at the upper-right edge of this rectangle; locating it at the lower-right would require thickness to extend in +Y.',
+           'Closed door: <strong>X = −width to 0</strong>; <strong>Y = 0 to +thickness</strong>. Positive X points right and positive Y points up. The red door origin O = (0,0) is the <strong>lower-right corner</strong> of the closed door.');
+    change('poly(s,[[-w-100,-t-3],[-w-8,-t-3],[-w-8,-t-25],[-w-100,-t-25]]',
+           'poly(s,[[-w-100,-3],[-w-8,-3],[-w-8,-25],[-w-100,-25]]');
+    change('poly(s,[[105,-t-3],[180,-t-3],[180,-t-25],[105,-t-25]]',
+           'poly(s,[[105,-3],[180,-3],[180,-25],[105,-25]]');
+    change('is the right-hand datum, and remains attached to the moving door.',
+           'is the lower-right corner of the closed door, and remains attached to the moving door.');
+    html = html.replace('<title>Free hatch linkage calculator | Theodore Nolan-Isles</title>',
+                        '<title>Free hatch linkage calculator | Theodore Nolan-Isles</title><meta name="description" content="Free four-bar linkage calculator with the door origin at the lower-right corner, positive X right and positive Y up.">');
+    document.open(); document.write(html); document.close();
+  } catch (error) {
+    loading.textContent = error.message + ' The original calculator remains available below.';
+    const link = document.createElement('a');link.href='./linkage-revised.html';link.textContent='Open original calculator';
+    document.body.append(link);
+  }
+})();
+</script></body></html>
