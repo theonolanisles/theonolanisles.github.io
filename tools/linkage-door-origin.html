@@ -1,29 +1,40 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linkage synthesis - loading corrected door geometry</title><style>body{font:16px system-ui;margin:3rem;max-width:55rem;color:#21362d}a{color:#245b48}</style></head><body><p id="loading" role="status">Loading the linkage calculator…</p><script>
-/* Apply the corrected lower-right door datum to the previously published calculator.
-   The original page is retained intact as a historical version. */
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linkage synthesis - loading corrected door coordinates</title><style>body{font:16px system-ui;margin:3rem;max-width:55rem;color:#21362d}a{color:#245b48}</style></head><body><p id="loading" role="status">Loading the linkage calculator…</p><script>
+/* Load the base walkthrough and use the same positive-X, positive-Y door datum
+   consistently in its rendered envelope, example and kinematic calculations. */
 (async function () {
   const loading = document.getElementById('loading');
   try {
     const response = await fetch('./linkage-revised.html', {cache:'no-store'});
     if (!response.ok) throw Error('The calculator could not be loaded ('+response.status+').');
     let html = await response.text();
-    const change = (before, after) => {
-      if (!html.includes(before)) throw Error('The calculator source has changed. The door-origin correction needs to be reapplied to its new version.');
+    function change(before, after) {
+      if (!html.includes(before)) throw Error('Calculator source has changed: the coordinate correction needs review.');
       html = html.replace(before, after);
-    };
+    }
+    // Geometry is specified in mathematical world coordinates; SVG inversion is
+    // handled separately by the existing drawing helpers.
     change('return [[-w,-t],[0,-t],[0,0],[-w,0]];',
-           'return [[-w,0],[0,0],[0,t],[-w,t]];');
+           'return [[0,0],[w,0],[w,t],[0,t]];');
     change('Closed door: <strong>X = −width to 0</strong>; <strong>Y = −thickness to 0</strong>. Positive Y points up. Consequently O appears at the upper-right edge of this rectangle; locating it at the lower-right would require thickness to extend in +Y.',
-           'Closed door: <strong>X = −width to 0</strong>; <strong>Y = 0 to +thickness</strong>. Positive X points right and positive Y points up. The red door origin O = (0,0) is the <strong>lower-right corner</strong> of the closed door.');
-    change('poly(s,[[-w-100,-t-3],[-w-8,-t-3],[-w-8,-t-25],[-w-100,-t-25]]',
-           'poly(s,[[-w-100,-3],[-w-8,-3],[-w-8,-25],[-w-100,-25]]');
-    change('poly(s,[[105,-t-3],[180,-t-3],[180,-t-25],[105,-t-25]]',
-           'poly(s,[[105,-3],[180,-3],[180,-25],[105,-25]]');
+           'Closed door: <strong>X = 0 to +width</strong>; <strong>Y = 0 to +thickness</strong>. Positive X points right and positive Y points up. The red door origin O = (0,0) is at the <strong>lower-left corner</strong> of the closed door.');
     change('is the right-hand datum, and remains attached to the moving door.',
-           'is the lower-right corner of the closed door, and remains attached to the moving door.');
+           'is the lower-left corner of the closed door, and remains attached to the moving door.');
+    // Fixed frame lies below the door, with supports on either side of its span.
+    change('poly(s,[[-w-100,-t-3],[-w-8,-t-3],[-w-8,-t-25],[-w-100,-t-25]]',
+           'poly(s,[[-100,-3],[-8,-3],[-8,-25],[-100,-25]]');
+    change('poly(s,[[105,-t-3],[180,-t-3],[180,-t-25],[105,-t-25]]',
+           'poly(s,[[w+8,-3],[w+100,-3],[w+100,-25],[w+8,-25]]');
+    // Positive angle opens this rightward-pointing panel upward; the displayed
+    // rotation remains an unsigned magnitude and origin translations stay in mm.
+    change('<option value="cw">Clockwise</option><option value="ccw">Counterclockwise</option>',
+           '<option value="ccw">Counterclockwise</option><option value="cw">Clockwise</option>');
+    change('In this example the hatch rotates 87.4° clockwise, and O moves 57.6 mm right and 67.8 mm up.',
+           'In this example the hatch rotates 87.4° counterclockwise, and O moves 57.6 mm right and 67.8 mm up.');
+    change('The red <strong>door origin O = (0,0)</strong> is the right-hand datum,',
+           'The red <strong>door origin O = (0,0)</strong> is the lower-left datum,');
     html = html.replace('<title>Free hatch linkage calculator | Theodore Nolan-Isles</title>',
-                        '<title>Free hatch linkage calculator | Theodore Nolan-Isles</title><meta name="description" content="Free four-bar linkage calculator with the door origin at the lower-right corner, positive X right and positive Y up.">');
+                        '<title>Free hatch linkage calculator | Theodore Nolan-Isles</title><meta name="description" content="Free four-bar linkage calculator with door width in positive X, thickness in positive Y, and the door origin at its lower-left corner.">');
     document.open(); document.write(html); document.close();
   } catch (error) {
     loading.textContent = error.message + ' The original calculator remains available below.';
