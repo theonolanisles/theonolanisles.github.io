@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linkage synthesis - loading corrected door coordinates</title><style>body{font:16px system-ui;margin:3rem;max-width:55rem;color:#21362d}a{color:#245b48}</style></head><body><p id="loading" role="status">Loading the linkage calculator…</p><script>
-/* Load the base walkthrough and use the same positive-X, positive-Y door datum
-   consistently in its rendered envelope, example and kinematic calculations. */
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linkage synthesis - loading door geometry</title><style>body{font:16px system-ui;margin:3rem;max-width:55rem;color:#21362d}a{color:#245b48}</style></head><body><p id="loading" role="status">Loading the linkage calculator…</p><script>
+/* Adapt the original guided four-bar calculator to a rightward-facing door.
+   Origin O is at the lower-left corner: X=0..width, Y=0..thickness.
+   Remove the decorative frame blocks - the canvas shows only the door,
+   its datums, pivot targets, and calculated linkages. */
 (async function () {
   const loading = document.getElementById('loading');
   try {
@@ -9,32 +11,36 @@
     if (!response.ok) throw Error('The calculator could not be loaded ('+response.status+').');
     let html = await response.text();
     function change(before, after) {
-      if (!html.includes(before)) throw Error('Calculator source has changed: the coordinate correction needs review.');
+      if (!html.includes(before)) throw Error('Calculator source has changed; the geometry update needs review.');
       html = html.replace(before, after);
     }
-    // Geometry uses mathematical world coordinates; the existing SVG drawing
-    // helpers invert Y only when rendering to the screen.
+    // The door geometry is defined in world coordinates. SVG drawing helpers
+    // invert Y at display time, so positive Y still appears upwards.
     change('return [[-w,-t],[0,-t],[0,0],[-w,0]];',
            'return [[0,0],[w,0],[w,t],[0,t]];');
     change('Closed door: <strong>X = −width to 0</strong>; <strong>Y = −thickness to 0</strong>. Positive Y points up. Consequently O appears at the upper-right edge of this rectangle; locating it at the lower-right would require thickness to extend in +Y.',
-           'Closed door: <strong>X = 0 to +width</strong>; <strong>Y = 0 to +thickness</strong>. Positive X points right and positive Y points up. The red door origin O = (0,0) is at the <strong>lower-left corner</strong> of the closed door.');
+           'Closed door: <strong>X = 0 to +width</strong>; <strong>Y = 0 to +thickness</strong>. X points right and Y points up. Door origin O = (0,0) is the <strong>lower-left corner</strong> of the closed door.');
     change('is the right-hand datum, and remains attached to the moving door.',
            'is the lower-left corner of the closed door, and remains attached to the moving door.');
-    change('poly(s,[[-w-100,-t-3],[-w-8,-t-3],[-w-8,-t-25],[-w-100,-t-25]]',
-           'poly(s,[[-100,-3],[-8,-3],[-8,-25],[-100,-25]]');
-    change('poly(s,[[105,-t-3],[180,-t-3],[180,-t-25],[105,-t-25]]',
-           'poly(s,[[w+8,-3],[w+100,-3],[w+100,-25],[w+8,-25]]');
-    // Positive angle opens this rightward-pointing panel upwards.
+    // These two decorative green/grey frame rectangles are not real collision
+    // geometry and are misleading in the preview; remove them entirely.
+    change("poly(s,[[-w-100,-t-3],[-w-8,-t-3],[-w-8,-t-25],[-w-100,-t-25]],{fill:'#52685b'});", '');
+    change("poly(s,[[105,-t-3],[180,-t-3],[180,-t-25],[105,-t-25]],{fill:'#52685b'});", '');
+    change('The dark frame is illustrative and is not used as collision geometry.',
+           'Only the door and its mechanism are shown; the surrounding structure is not modelled.');
+    change('1 · Closed door and fixed frame', '1 · Closed door and origin');
+    change('Closed door and frame', 'Closed door and origin');
+    // Counterclockwise rotation raises the right-hand end of a +X door.
     change('<option value="cw">Clockwise</option><option value="ccw">Counterclockwise</option>',
            '<option value="ccw">Counterclockwise</option><option value="cw">Clockwise</option>');
     change('In this example the hatch rotates 87.4° clockwise, and O moves 57.6 mm right and 67.8 mm up.',
            'In this example the hatch rotates 87.4° counterclockwise, and O moves 57.6 mm right and 67.8 mm up.');
     html = html.replace('<title>Free hatch linkage calculator | Theodore Nolan-Isles</title>',
-                        '<title>Free hatch linkage calculator | Theodore Nolan-Isles</title><meta name="description" content="Free four-bar linkage calculator with door width in positive X, thickness in positive Y, and door origin at its lower-left corner.">');
+      '<title>Free hatch linkage calculator | Theodore Nolan-Isles</title><meta name="description" content="Free four-bar linkage calculator: closed door from X=0 to +width and Y=0 to +thickness; no decorative frame blocks.">');
     document.open(); document.write(html); document.close();
   } catch (error) {
-    loading.textContent = error.message + ' The original calculator remains available below.';
-    const link = document.createElement('a');link.href='./linkage-revised.html';link.textContent='Open original calculator';
+    loading.textContent = error.message + ' The earlier calculator remains available below.';
+    const link = document.createElement('a'); link.href='./linkage-revised.html'; link.textContent='Open earlier calculator';
     document.body.append(link);
   }
 })();
